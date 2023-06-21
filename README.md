@@ -1,5 +1,5 @@
 <h1 align="center">Hi I'm Noel Purde</h1>
-<img align="right" alt="Coding" width="310" src="https://media0.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif">
+<img align="right" alt="Coding" width="300" src="https://media0.giphy.com/media/qgQUggAC3Pfv687qPC/giphy.gif">
 
 
 
