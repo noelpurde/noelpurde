@@ -33,7 +33,10 @@ jobs:
       - name: Update README with Pet
         run: |
           PET_ART=$(cat pet_states/$PET_STATE)
-          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\\n'"$PET_ART"'\\n<!-- Pet End -->' README.md
+          ESCAPED_PET_ART=$(echo "$PET_ART" | sed 's/[&/\]/\\&/g')  # Escape special characters for sed
+          
+          # Insert the escaped ASCII art into the README.md
+          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\\n'"$ESCAPED_PET_ART"'\\n<!-- Pet End -->' README.md
 
       - name: Check for changes and commit
         run: |
