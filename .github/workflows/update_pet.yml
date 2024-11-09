@@ -32,17 +32,17 @@ jobs:
 
       - name: Update README with Pet
         run: |
-          # Read the content of the pet state file and preserve newlines
+          # Read the content of the pet state file
           PET_ART=$(cat pet_states/$PET_STATE)
-
+          
           # Escape special characters for sed (including parentheses, &, etc.)
           ESCAPED_PET_ART=$(echo "$PET_ART" | sed 's/[&/\]/\\&/g; s/(/\\(/g; s/)/\\)/g')
 
-          # Use 'echo -e' to preserve newlines and insert the ASCII art with real newlines
-          ESCAPED_PET_ART=$(echo -e "$ESCAPED_PET_ART")
+          # Replace \n with actual newlines and preserve the formatting
+          ESCAPED_PET_ART=$(echo "$ESCAPED_PET_ART" | sed ':a;N;$!ba;s/\n/\\n/g')
 
-          # Insert the ASCII art into the README.md with preserved newlines
-          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\<!-- Pet Start -->\n'"$ESCAPED_PET_ART"'\n<!-- Pet End -->' README.md
+          # Insert the ASCII art into the README.md
+          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\n'"$ESCAPED_PET_ART"'\n<!-- Pet End -->' README.md
 
       - name: Check for changes and commit
         run: |
