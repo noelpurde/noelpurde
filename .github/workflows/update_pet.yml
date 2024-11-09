@@ -2,7 +2,7 @@ name: Update Profile Pet
 
 on:
   schedule:
-    - cron: '0 0 * * 1'  # Runs every Monday at midnight UTC
+    - cron: '0 0 * * 1'
   push:
     branches:
       - main
@@ -32,18 +32,9 @@ jobs:
 
       - name: Update README with Pet
         run: |
-          # Read the content of the pet state file
-          PET_ART=$(cat pet_states/$PET_STATE)
-
-          # Escape special characters for sed, including parentheses, &, etc.
-          ESCAPED_PET_ART=$(echo "$PET_ART" | sed 's/[&/\]/\\&/g; s/(/\\(/g; s/)/\\)/g')
-
-          # Ensure newlines are preserved and replaced by actual line breaks in markdown
-          ESCAPED_PET_ART=$(echo "$ESCAPED_PET_ART" | sed ':a;N;$!ba;s/\n/\\n/g')
-
-          # Insert the ASCII art into the README.md between markers
-          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\\n'"$ESCAPED_PET_ART"'\\n<!-- Pet End -->' README.md
-
+          PET_ART=$(cat pet_states/$PET_STATE | sed ':a;N;$!ba;s/\n/\\n/g')
+          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\\n'"$PET_ART"'\\n<!-- Pet End -->' README.md
+          
       - name: Check for changes and commit
         run: |
           # Check if there are any changes
