@@ -7,9 +7,9 @@ Check out my pet below, which I'm so proud of and acts depending on my mood.
 
 ## My ASCII Pet
 
-<!-- Pet Start -->
-Here, the action will insert your pet's ASCII art based on activity.
-<!-- Pet End -->
+<!-- Pet Start -->\n /_/  
+(- - ) zzZ   "Tu fjet..."
+ > ^ <\n<!-- Pet End -->
 
 ---
 
