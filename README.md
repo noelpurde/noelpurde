@@ -7,9 +7,11 @@ Check out my pet below, which I'm so proud of and acts depending on my mood.
 
 ## My ASCII Pet
 
-<!-- Pet Start -->\n /_/  
+<!-- Pet Start -->
+ /\_/\  
 ( - - ) zzZ
-"Tu fjet..."\n<!-- Pet End -->
+"Tu fjet..."
+<!-- Pet End -->
 
 ---
 
