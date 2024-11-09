@@ -35,8 +35,8 @@ jobs:
           # Read the content of the pet state file
           PET_ART=$(cat pet_states/$PET_STATE)
           
-          # Escape special characters for sed
-          ESCAPED_PET_ART=$(echo "$PET_ART" | sed 's/[&/\]/\\&/g')
+          # Escape special characters for sed, including parentheses, &, etc.
+          ESCAPED_PET_ART=$(echo "$PET_ART" | sed 's/[&/\]/\\&/g; s/(/\\(/g; s/)/\\)/g')
           
           # Insert the ASCII art into the README.md
           sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\\n'"$ESCAPED_PET_ART"'\\n<!-- Pet End -->' README.md
