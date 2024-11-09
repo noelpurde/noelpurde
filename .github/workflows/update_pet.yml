@@ -2,7 +2,7 @@ name: Update Profile Pet
 
 on:
   schedule:
-    - cron: '0 0 * * 1'
+    - cron: '0 0 * * 1'  # Run every Monday at midnight UTC
   push:
     branches:
       - main  # Trigger on push to the main branch
@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3  # Updated to v3 to avoid deprecation warnings
 
       - name: Determine Pet State
         id: set_state
@@ -30,12 +30,20 @@ jobs:
             echo "PET_STATE=active_cat.txt" >> $GITHUB_ENV
           fi
 
-      - name: Push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # This allows the action to push
+      - name: Update README with Pet
         run: |
-          git config --global user.name 'GitHub Action Bot'
-          git config --global user.email 'bot@example.com'
-          git add README.md
-          git commit -m "Updated profile pet"
-          git push
+          PET_ART=$(cat pet_states/$PET_STATE | sed ':a;N;$!ba;s/\n/\\n/g')
+          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\\n'"$PET_ART"'\\n<!-- Pet End -->' README.md
+          
+      - name: Check for changes and commit
+        run: |
+          # Check if there are any changes
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config --global user.name 'GitHub Action Bot'
+            git config --global user.email 'bot@example.com'
+            git add README.md
+            git commit -m "Updated profile pet"
+            git push
+          else
+            echo "No changes to commit."
+          fi
