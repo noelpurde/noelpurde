@@ -34,14 +34,14 @@ jobs:
         run: |
           # Read the content of the pet state file
           PET_ART=$(cat pet_states/$PET_STATE)
-          
+
           # Escape special characters for sed, including parentheses, &, etc.
           ESCAPED_PET_ART=$(echo "$PET_ART" | sed 's/[&/\]/\\&/g; s/(/\\(/g; s/)/\\)/g')
-          
-          # Replace newlines in the content correctly by escaping them.
+
+          # Ensure newlines are preserved and replaced by actual line breaks in markdown
           ESCAPED_PET_ART=$(echo "$ESCAPED_PET_ART" | sed ':a;N;$!ba;s/\n/\\n/g')
 
-          # Insert the ASCII art into the README.md, making sure we handle multi-line correctly
+          # Insert the ASCII art into the README.md between markers
           sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\\n'"$ESCAPED_PET_ART"'\\n<!-- Pet End -->' README.md
 
       - name: Check for changes and commit
