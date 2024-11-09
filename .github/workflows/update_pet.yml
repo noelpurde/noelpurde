@@ -38,11 +38,9 @@ jobs:
           # Escape special characters for sed (including parentheses, &, etc.)
           ESCAPED_PET_ART=$(echo "$PET_ART" | sed 's/[&/\]/\\&/g; s/(/\\(/g; s/)/\\)/g')
           
-          # Replace newlines with actual newlines (preserve ASCII art formatting)
-          ESCAPED_PET_ART=$(echo "$ESCAPED_PET_ART" | sed ':a;N;$!ba;s/\n/\n/g')
-          
-          # Insert the ASCII art into the README.md with the appropriate markers
-          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\n'"$ESCAPED_PET_ART"'\n<!-- Pet End -->' README.md
+          # Insert the ASCII art directly into the README.md with preserved newlines
+          # Using echo to pass the multi-line string correctly
+          echo "$ESCAPED_PET_ART" | sed '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\n'"$(cat)"'\n<!-- Pet End -->' README.md
 
       - name: Check for changes and commit
         run: |
