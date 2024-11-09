@@ -32,8 +32,11 @@ jobs:
 
       - name: Update README with Pet
         run: |
+          # Read the content of the pet state file and escape special characters
           PET_ART=$(cat pet_states/$PET_STATE)
-          ESCAPED_PET_ART=$(echo "$PET_ART" | sed 's/[&/\]/\\&/g')  # Escape special characters for sed
+          
+          # Replace \n with actual newlines
+          ESCAPED_PET_ART=$(echo "$PET_ART" | sed ':a;N;$!ba;s/\n/\\n/g' | sed 's/[&/\]/\\&/g')  # Escape special characters for sed
           
           # Insert the escaped ASCII art into the README.md
           sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\\n'"$ESCAPED_PET_ART"'\\n<!-- Pet End -->' README.md
