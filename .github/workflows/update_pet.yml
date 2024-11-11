@@ -23,8 +23,12 @@ jobs:
           moods=("active_cat.txt" "bug_fixer_cat.txt" "celebration_cat.txt" "sleepy_cat.txt" "spring_cat.txt" "weekend_cat.txt" "winter_cat.txt")
           random_mood=${moods[$RANDOM % ${#moods[@]}]}
           mood=$(cat pet_states/$random_mood)
-          # Remove problematic characters (such as quotes and spaces) to prevent env issues
-          safe_mood=$(echo "$mood" | sed 's/[^a-zA-Z0-9 ]//g')  # Keep only alphanumeric and spaces
+          
+          # Escape any special characters that might cause issues with environment variables
+          # For example, quotes, newlines, etc.
+          safe_mood=$(echo "$mood" | sed 's/["\n]/\\&/g')  # Escape quotes and newlines
+
+          # Write to the environment file
           echo "SELECTED_MOOD=$safe_mood" >> $GITHUB_ENV
 
       - name: Update README
