@@ -3,13 +3,13 @@
 I'm Noel – a developer who loves technology.  
 Check out my pet below, which acts depending on my mood.
 
-
+```
 <!-- Pet Start -->
  /\_/\  
 ( - - ) zzZ
 "Tu fjet..."
 <!-- Pet End -->
-
+```
 ---
 
 ### My Tech Stack
