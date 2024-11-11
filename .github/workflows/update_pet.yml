@@ -32,17 +32,20 @@ jobs:
 
       - name: Update README with Pet
         run: |
-          # Get pet mood and escape special characters
+          # Get pet mood and escape special characters, making line breaks safe for sed
           PET_ART=$(cat pet_states/$PET_STATE | sed ':a;N;$!ba;s/\n/\\n/g')
 
+          # Wrap the content with ```bash and ``` markers and safely update the README
+          PET_ART="```bash\n$PET_ART\n```"
+
           # Safely replace the content inside the code block, preserving the ```bash markers
-          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/{
+          sed -i -e "/<!-- Pet Start -->/,/<!-- Pet End -->/{
             /```bash/!b
             /```bash/ { 
               N
-              s/```bash\n.*/```bash\n'$PET_ART'/ 
+              s|```bash\n.*|```bash\n$PET_ART| 
             }
-          }' README.md
+          }" README.md
 
       - name: Check for changes and commit
         run: |
