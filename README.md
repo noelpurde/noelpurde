@@ -5,7 +5,9 @@ Check out my pet below, which acts depending on my mood.
 
 <!-- Pet Start -->
 ```
-
+ /\_/\  
+( o.o )   "Gati me kodu nga pak Python!"
+ > ^ <
 ```
 <!-- Pet End -->
 
