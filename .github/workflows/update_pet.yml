@@ -1,58 +1,31 @@
-name: Update Profile Pet
+name: Update Cat Mood
 
 on:
   schedule:
-    - cron: '0 0 * * 1'  # Runs every Monday at midnight UTC
-  push:
-    branches:
-      - main
+    - cron: '0 0 * * 0' # Runs every Sunday at midnight UTC
 
 jobs:
-  update-pet:
+  update-readme:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Determine Pet State
-        id: set_state
+      - name: Select a random cat mood
+        id: cat_mood
         run: |
-          TODAY=$(date +%m)
-          # Check recent commits and set pet state
-          if [[ $(git log --since='1 week ago' --pretty=format:'%h' | wc -l) -eq 0 ]]; then
-            echo "PET_STATE=sleepy_cat.txt" >> $GITHUB_ENV
-          elif [[ "$TODAY" == "12" || "$TODAY" == "01" || "$TODAY" == "02" ]]; then
-            echo "PET_STATE=winter_cat.txt" >> $GITHUB_ENV
-          elif [[ "$TODAY" == "03" || "$TODAY" == "04" || "$TODAY" == "05" ]]; then
-            echo "PET_STATE=spring_cat.txt" >> $GITHUB_ENV
-          else
-            echo "PET_STATE=active_cat.txt" >> $GITHUB_ENV
-          fi
+          moods=("active_cat.txt" "bug_fixer_cat.txt" "celebration_cat.txt" "sleepy_cat.txt" "spring_cat.txt" "weekend_cat.txt" "winter_cat.txt")
+          random_mood=${moods[$RANDOM % ${#moods[@]}]}
+          echo "SELECTED_MOOD=$(cat pet_states/$random_mood)" >> $GITHUB_ENV
 
-      - name: Update README with Pet
+      - name: Update README
         run: |
-          # Read the content of the pet state file
-          PET_ART=$(cat pet_states/$PET_STATE)
-          
-          # Escape special characters for sed (including parentheses, &, etc.)
-          ESCAPED_PET_ART=$(echo "$PET_ART" | sed 's/[&/\]/\\&/g; s/(/\\(/g; s/)/\\)/g')
+          sed -i "/## Current Cat Mood/!b;n;c\\${SELECTED_MOOD}" README.md
 
-          # Replace \n with actual newlines and preserve the formatting
-          ESCAPED_PET_ART=$(echo "$ESCAPED_PET_ART" | sed ':a;N;$!ba;s/\n/\\n/g')
-
-          # Insert the ASCII art into the README.md
-          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\n'"$ESCAPED_PET_ART"'\n<!-- Pet End -->' README.md
-
-      - name: Check for changes and commit
+      - name: Commit and push changes
         run: |
-          # Check if there are any changes
-          if [[ -n "$(git status --porcelain)" ]]; then
-            git config --global user.name 'GitHub Action Bot'
-            git config --global user.email 'bot@example.com'
-            git add README.md
-            git commit -m "Updated profile pet"
-            git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          else
-            echo "No changes to commit."
-          fi
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add README.md
+          git commit -m "Update cat mood for the week"
+          git push
