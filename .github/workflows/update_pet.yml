@@ -2,7 +2,7 @@ name: Update Profile Pet
 
 on:
   schedule:
-    - cron: '0 0 * * 1'
+    - cron: '0 0 * * 1'  # Weekly update on Sunday at midnight
   push:
     branches:
       - main
@@ -30,16 +30,13 @@ jobs:
             echo "PET_STATE=active_cat.txt" >> $GITHUB_ENV
           fi
 
-      - name: Update README with Pet
+      - name: Update README with Pet (with code block)
         run: |
-          # Read the pet art from the selected file
-          PET_ART=$(cat pet_states/$PET_STATE)
-          # Escape special characters like backslashes and wrap in a code block
-          PET_ART=$(echo "$PET_ART" | sed 's/\\/\\\\/g')  # Escape backslashes
-          PET_ART="```bash\n$PET_ART\n```"
-          # Replace the pet state section in the README with the updated content
-          sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\\n'"$PET_ART"'\\n<!-- Pet End -->' README.md
-
+          PET_ART=$(cat pet_states/$PET_STATE | sed ':a;N;$!ba;s/\n/\\n/g')
+          echo "```bash
+          $PET_ART
+          ```" >> README.md
+  
       - name: Check for changes and commit
         run: |
           # Check if there are any changes
