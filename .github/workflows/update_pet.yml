@@ -12,14 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Determine Pet State
-        id: set_state
+        id: set-state
         run: |
           TODAY=$(date +%m)
-          # Check recent commits and set pet state
           if [[ $(git log --since='1 week ago' --pretty=format:'%h' | wc -l) -eq 0 ]]; then
             echo "PET_STATE=sleepy_cat.txt" >> $GITHUB_ENV
           elif [[ "$TODAY" == "12" || "$TODAY" == "01" || "$TODAY" == "02" ]]; then
@@ -33,19 +31,12 @@ jobs:
       - name: Update README with Pet (with code block)
         run: |
           PET_ART=$(cat pet_states/$PET_STATE | sed ':a;N;$!ba;s/\n/\\n/g')
-          echo "```bash
-          $PET_ART
-          ```" >> README.md
-  
-      - name: Check for changes and commit
+          sed -i 's/.*/\n```bash\n'"$PET_ART"'\n```\n/g' README.md
+
+      - name: Commit and Push Changes
         run: |
-          # Check if there are any changes
-          if [[ -n "$(git status --porcelain)" ]]; then
-            git config --global user.name 'GitHub Action Bot'
-            git config --global user.email 'bot@example.com'
-            git add README.md
-            git commit -m "Updated profile pet"
-            git push https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
-          else
-            echo "No changes to commit."
-          fi
+          git config --global user.name 'GitHub Action Bot'
+          git config --global user.email 'bot@example.com'
+          git add README.md
+          git commit -m "Updated profile pet"
+          git push
