@@ -3,10 +3,7 @@
 I'm Noel – a developer who loves technology.  
 Check out my pet below, which acts depending on my mood.
 
-<!-- Pet Start -->
-```bash
-```
-<!-- Pet End -->
+<!-- CAT_ART -->
 
 ---
 
