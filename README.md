@@ -3,8 +3,9 @@
 I'm Noel – a developer who loves technology.  
 Check out my pet below, which acts depending on my mood.
 
-<!-- Pet Start -->
-<!-- Pet End -->
+<!-- Pet Start -->\n /_/  
+( - - ) zzZ
+"Tu fjet..."\n<!-- Pet End -->
 
 ---
 
