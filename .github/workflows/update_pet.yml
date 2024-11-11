@@ -3,6 +3,7 @@ name: Update Cat Mood
 on:
   schedule:
     - cron: '0 0 * * 0' # Runs every Sunday at midnight UTC
+  workflow_dispatch: # Allows manual trigger from GitHub UI
 
 jobs:
   update-readme:
@@ -10,6 +11,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Wait for 2 minutes (simulate delay)
+        run: |
+          echo "Waiting for 2 minutes..."
+          sleep 120  # Sleep for 120 seconds (2 minutes)
 
       - name: Select a random cat mood
         id: cat_mood
