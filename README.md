@@ -3,13 +3,9 @@
 I'm Noel – a developer who loves technology.  
 Check out my pet below, which acts depending on my mood.
 
-<!-- Pet Start -->
-```
- /\_/\  
-( o.o )   "Gati me kodu nga pak Python!"
- > ^ <
-```
-<!-- Pet End -->
+<!-- Pet Start -->\n /_/  
+(- - ) zzZ   "Tu fjet..."
+ > ^ <\n<!-- Pet End -->
 
 ---
 
