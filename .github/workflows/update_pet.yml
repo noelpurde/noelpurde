@@ -32,8 +32,10 @@ jobs:
 
       - name: Update README with Pet
         run: |
+          # Read the pet art from the selected file
           PET_ART=$(cat pet_states/$PET_STATE)
-          # Wrap the PET_ART with a code block
+          # Escape special characters like backslashes and wrap in a code block
+          PET_ART=$(echo "$PET_ART" | sed 's/\\/\\\\/g')  # Escape backslashes
           PET_ART="```bash\n$PET_ART\n```"
           # Replace the pet state section in the README with the updated content
           sed -i '/<!-- Pet Start -->/,/<!-- Pet End -->/c\\<!-- Pet Start -->\\n'"$PET_ART"'\\n<!-- Pet End -->' README.md
