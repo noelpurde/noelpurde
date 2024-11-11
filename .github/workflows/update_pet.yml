@@ -34,7 +34,7 @@ jobs:
         run: |
           PET_ART=$(cat pet_states/$PET_STATE)
           # Wrap the PET_ART with a code block
-          PET_ART="```bash\n$PET_ART\n```"
+          PET_ART="```\n$PET_ART\n```"
           # Escape the newlines to properly format for sed
           PET_ART=$(echo "$PET_ART" | sed ':a;N;$!ba;s/\n/\\n/g')
           # Replace the pet state section in the README with the updated content
