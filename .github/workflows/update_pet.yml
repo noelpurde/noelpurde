@@ -31,7 +31,7 @@ jobs:
       - name: Update README with Pet (with code block)
         run: |
           PET_ART=$(cat pet_states/$PET_STATE | sed ':a;N;$!ba;s/\n/\\n/g')
-          sed -i 's/.*/\n```bash\n'"$PET_ART"'\n```\n/g' README.md
+          sed -i 's/./\n`bash\n'"$PET_ART"'\n`\n/g' README.md
 
       - name: Commit and Push Changes
         run: |
