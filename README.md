@@ -3,7 +3,8 @@
 I'm Noel – a developer who loves technology.  
 Check out my pet below, which acts depending on my mood.
 
-<!-- CAT_ART -->
+<!-- Pet Start -->
+<!-- Pet End -->
 
 ---
 
