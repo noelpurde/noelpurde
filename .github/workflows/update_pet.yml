@@ -3,7 +3,7 @@ name: Update Cat Mood for README
 on:
   schedule:
     - cron: '0 0 * * 0'  # Every Sunday at midnight to update the state for the week
-  workflow_dispatch:
+  workflow_dispatch:  # Allows manual triggering
 
 jobs:
   update-readme:
@@ -21,12 +21,11 @@ jobs:
     - name: Read current date and update mood
       run: |
         import datetime
-        import os
         
         current_date = datetime.datetime.now()
         current_month = current_date.month
         current_weekday = current_date.weekday()
-        
+
         if current_weekday == 5 or current_weekday == 6:  # Weekend
             cat_file = 'weekend_cat.txt'
         elif current_month in [12, 1, 2]:  # Winter months
@@ -37,19 +36,19 @@ jobs:
             cat_file = 'sleepy_cat.txt'
         else:
             cat_file = 'active_cat.txt'  # Default to active cat
-            
+
         # Read the selected cat file
         with open(f'./pet_states/{cat_file}', 'r') as file:
             cat_art = file.read()
-        
+
         # Write it to the README
         readme_path = './README.md'
         with open(readme_path, 'r') as file:
             readme_content = file.read()
-        
+
         # Update the README with the selected cat art in code block format
         updated_content = readme_content.replace('<!-- CAT_ART -->', f'```bash\n{cat_art}\n```')
-        
+
         with open(readme_path, 'w') as file:
             file.write(updated_content)
 
